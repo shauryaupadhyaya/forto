@@ -36,6 +36,7 @@ function Layout() {
         }}
       >
         <div className="sidebar-logo" style={{ background: theme.logoBg }}></div>
+        
         <nav className="sidebar-nav">
           {sidebarLinks.map(({ name, to }) => {
             const isActive = location.pathname === to;

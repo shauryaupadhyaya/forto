@@ -42,7 +42,7 @@ function Dashboard() {
         <div className="section-card">
             <div className="section-header">
             <h3>Today's Tasks</h3>
-            <button className="add-btn">+ Add Task</button>
+            <button className="focus-btn">+ Add Task</button>
             </div>
             <p className="empty-text">No tasks for today. Add one to get started!</p>
         </div>
@@ -50,7 +50,7 @@ function Dashboard() {
         <div className="section-card">
             <div className="section-header">
             <h3>Today's Habits</h3>
-            <button className="add-btn">+ Add Habit</button>
+            <button className="focus-btn">+ Add Habit</button>
             </div>
             <p className="empty-text">
             No habits tracked. Create one to build consistency!

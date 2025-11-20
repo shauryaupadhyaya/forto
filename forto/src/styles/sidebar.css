@@ -27,10 +27,7 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
-  margin-bottom: 0;
-  max-height: calc(100vh - 130px);
   overflow-y: auto;
-  flex-grow: 1;
 }
 
 .sidebar-link {
@@ -52,11 +49,11 @@
 .sidebar-bottom {
   width: 100%;
   margin-top: auto;
-  padding-top: 8px;
-  padding-bottom: 16px;
+  padding-top: 2px;
+  padding-bottom: 46px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 4px;
 }
 
 .sidebar-xp {
@@ -89,6 +86,5 @@
   font-size: 1rem;
   cursor: pointer;
   font-family: inherit;
-  padding: 4px 0 0 0;
   transition: color 0.25s;
 }

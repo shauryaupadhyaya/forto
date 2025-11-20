@@ -3,7 +3,7 @@ import "../styles/tasks.css";
 
 function Tasks() {
   const [tasks, setTasks] = useState([]);
-  const [tab, setTab] = useState("all");
+  const [tab, setTab] = useState("today");
   const [showNewTask, setShowNewTask] = useState(false);
   const [newTask, setNewTask] = useState({
     title: "",
@@ -17,25 +17,27 @@ function Tasks() {
 
   const addTask = () => {
     if (!newTask.title || !newTask.date) return;
+
     setTasks([...tasks, { ...newTask, id: Date.now(), completed: false }]);
+
     setNewTask({ title: "", description: "", date: "" });
     setShowNewTask(false);
   };
 
   const deleteTask = (id) => {
-    setTasks(tasks.filter((task) => task.id !== id));
+    setTasks(tasks.filter((t) => t.id !== id));
   };
 
   const toggleComplete = (id) => {
     setTasks(
-      tasks.map((task) =>
-        task.id === id ? { ...task, completed: !task.completed } : task
+      tasks.map((t) =>
+        t.id === id ? { ...t, completed: !t.completed } : t
       )
     );
   };
 
+  const today = new Date().toISOString().split("T")[0];
   const filteredTasks = tasks.filter((task) => {
-    const today = new Date().toISOString().split("T")[0];
     if (tab === "today") return task.date === today;
     if (tab === "upcoming") return task.date > today;
     return true;
@@ -44,15 +46,15 @@ function Tasks() {
   return (
     <div className="tasks-page">
 
-      <h1 className="tasks-header">Tasks</h1>
+      <h1 className="tasks-title">Tasks</h1>
 
-      <div className="tasks-top-bar">
-        <div className="tasks-tabs">
-          {["all", "today", "upcoming"].map((t) => (
+      <div className="tasks-header-bar">
+        <div className="tabs-group">
+          {["today", "upcoming", "all"].map((t) => (
             <button
               key={t}
+              className={`tab-pill ${tab === t ? "active" : ""}`}
               onClick={() => setTab(t)}
-              className={`tab-btn ${tab === t ? "active" : ""}`}
             >
               {t.charAt(0).toUpperCase() + t.slice(1)}
             </button>
@@ -64,38 +66,37 @@ function Tasks() {
         </button>
       </div>
 
-      <div className="tasks-list">
-        {filteredTasks.length === 0 && (
-          <p className="empty-text">No tasks found.</p>
-        )}
-
-        {filteredTasks.map((task) => (
-          <div className="task-card" key={task.id}>
-            <div className="task-left">
-              <input
-                type="checkbox"
-                checked={task.completed}
-                onChange={() => toggleComplete(task.id)}
-              />
-
-              <div className="task-info">
-                <strong>{task.title}</strong>
-                <p>
-                  {task.description} ({task.date})
-                </p>
+      {filteredTasks.length === 0 ? (
+        <div className="empty-box">
+          <p>No tasks found. Create one to get started!</p>
+        </div>
+      ) : (
+        <div className="task-list">
+          {filteredTasks.map((task) => (
+            <div className="task-card" key={task.id}>
+              <div className="task-left">
+                <input
+                  type="checkbox"
+                  checked={task.completed}
+                  onChange={() => toggleComplete(task.id)}
+                />
+                <div className="task-info">
+                  <strong>{task.title}</strong>
+                  <p>{task.description} ({task.date})</p>
+                </div>
               </div>
-            </div>
 
-            <button className="delete-btn" onClick={() => deleteTask(task.id)}>
-              Delete
-            </button>
-          </div>
-        ))}
-      </div>
+              <button className="delete-btn" onClick={() => deleteTask(task.id)}>
+                Delete
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
 
       {showNewTask && (
         <div className="popup-overlay">
-          <div className="popup">
+          <div className="popup-window">
             <h2>New Task</h2>
 
             <input
@@ -106,8 +107,7 @@ function Tasks() {
               onChange={handleInputChange}
             />
 
-            <input
-              type="text"
+            <textarea
               name="description"
               placeholder="Description"
               value={newTask.description}
@@ -122,16 +122,15 @@ function Tasks() {
             />
 
             <div className="popup-buttons">
-              <button className="add-btn" onClick={addTask}>
-                Add
-              </button>
-              <button className="cancel-btn" onClick={() => setShowNewTask(false)}>
+              <button className="popup-add" onClick={addTask}>Add</button>
+              <button className="popup-cancel" onClick={() => setShowNewTask(false)}>
                 Cancel
               </button>
             </div>
           </div>
         </div>
       )}
+
     </div>
   );
 }
