@@ -13,6 +13,11 @@ Forto is a all in one task tracker, habit tracker, and pomodoro timer. It keeps 
 - task section styling completed
 - mini popup styling done
 - habit section styling done same as tasks (slight changes for the sections)
+- pomodoro/focus timer styled and completed
+- custom timer added for break and focus times
+- todo features added
+- tasks segregation by date feature added
+- dashboard buttons linked directly to pages
 
 ## Built With
 - React
