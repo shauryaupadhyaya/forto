@@ -1,13 +1,13 @@
-import { Outlet, Link, useLocation } from "react-router-dom";
+import { Outlet, Link, useLocation, Navigate } from "react-router-dom";
 import { useState } from "react";
 import "../styles/sidebar.css";
+import { useNavigate } from "react-router-dom";
 
 const sidebarLinks = [
   { name: "Dashboard", to: "/" },
   { name: "Tasks", to: "/tasks" },
   { name: "Habits", to: "/habits" },
   { name: "Focus Timer", to: "/pomodoro" },
-  { name: "Projects", to: "/projects" },
   { name: "Calendar", to: "/calendar" },
   { name: "Analytics", to: "/analytics" }
 ];
@@ -15,6 +15,7 @@ const sidebarLinks = [
 function Layout() {
   const location = useLocation();
   const [mode, setMode] = useState("dark");
+  const navigate = useNavigate();
 
   const isDark = mode === "dark";
   const theme = {
@@ -35,7 +36,7 @@ function Layout() {
           color: theme.sidebarText,
         }}
       >
-        <div className="sidebar-logo" style={{ background: theme.logoBg }}></div>
+        <div className="sidebar-logo" style={{ background: theme.logoBg }} onClick={() => navigate("/")}></div>
         
         <nav className="sidebar-nav">
           {sidebarLinks.map(({ name, to }) => {

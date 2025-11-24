@@ -1,6 +1,8 @@
 import "../styles/dashboard.css";
+import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
+    const navigate = useNavigate();
   return (
     <div className="dashboard-outer">
         <div className="dashboard">
@@ -36,13 +38,13 @@ function Dashboard() {
             <h3>Quick Focus Session</h3>
             <p>Start a Pomodoro timer</p>
             </div>
-            <button className="focus-btn">Start Focus</button>
+            <button className="focus-btn" onClick={() => navigate("/pomodoro")}>Start Focus</button>
         </div>
 
         <div className="section-card">
             <div className="section-header">
             <h3>Today's Tasks</h3>
-            <button className="focus-btn">+ Add Task</button>
+            <button className="focus-btn" onClick={() => navigate("/tasks")}>+ Add Task</button>
             </div>
             <p className="empty-text">No tasks for today. Add one to get started!</p>
         </div>
@@ -50,7 +52,7 @@ function Dashboard() {
         <div className="section-card">
             <div className="section-header">
             <h3>Today's Habits</h3>
-            <button className="focus-btn">+ Add Habit</button>
+            <button className="focus-btn" onClick={() => navigate("/habits")}>+ Add Habit</button>
             </div>
             <p className="empty-text">
             No habits tracked. Create one to build consistency!

@@ -6,6 +6,7 @@ import Layout from "./components/layout";
 import Tasks from "./components/tasks";
 import Dashboard from "./pages/dashboard";
 import Habits from "./pages/habits"
+import Focus from "./pages/focus";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -15,10 +16,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <Route index element={<Dashboard />} />
           <Route path="tasks" element={<Tasks />} />
           <Route path="habits" element={<Habits />} />
-          <Route path="pomodoro" element={<div>Pomodoro</div>} />
+          <Route path="pomodoro" element={<Focus />} />
           <Route path="calendar" element={<div>Calendar</div>} />
           <Route path="analytics" element={<div>Analytics</div>} />
-          <Route path="settings" element={<div>Settings</div>} />
         </Route>
       </Routes>
     </BrowserRouter>

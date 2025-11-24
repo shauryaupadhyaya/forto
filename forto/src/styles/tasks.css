@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
 
 .tasks-page {
-    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    font-family: 'Inter', sans-serif;
     background: #151922;
     color: #A6B0C3;
     padding-left: 90px;
@@ -46,7 +46,6 @@
     background: #3479FF;
     color: white;
     border-color: #3479FF;
-    box-shadow: 0 2px 6px rgba(52, 121, 255, 0.28);
 }
 
 .new-task-btn {
@@ -58,12 +57,6 @@
     border: none;
     font-size: 1rem;
     font-weight: 600;
-    transition: 0.2s;
-    box-shadow: 0 2px 8px rgba(52, 121, 255, 0.18);
-}
-
-.new-task-btn:hover {
-    background: #4C8DFF;
 }
 
 .empty-box {
@@ -86,27 +79,29 @@
     color: #8792a7;
 }
 
-.task-list {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    max-width: 820px;
-}
-
 .task-card {
     background: #202736;
+    border: 1px solid #2a3550;
     padding: 18px 20px;
     border-radius: 16px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: 1px solid #2a3550;
+    margin-bottom: 16px;
 }
 
 .task-left {
     display: flex;
     align-items: center;
     gap: 14px;
+    flex: 1;
+}
+
+.task-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
 }
 
 .task-info strong {
@@ -120,6 +115,27 @@
     margin-top: 2px;
 }
 
+.completed-task {
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+
+.task-actions {
+    display: flex;
+    gap: 6px;
+}
+
+.edit-btn {
+    background: #3479FF;
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
 .delete-btn {
     background: #D64545;
     border: none;
@@ -129,98 +145,167 @@
     cursor: pointer;
     font-weight: 500;
     font-size: 0.9rem;
-    transition: 0.2s;
 }
 
-.delete-btn:hover {
-    background: #c23737;
+.checkbox-container {
+    display: block;
+    position: relative;
+    padding-left: 24px;
+    cursor: pointer;
+}
+
+.checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkbox-container input:focus + .checkmark {
+    box-shadow: 0 0 0 2px #4c8dff61;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 18px;
+    width: 18px;
+    background-color: #202736;
+    border: 1px solid #2a3550;
+    border-radius: 4px;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.checkbox-container input:checked ~ .checkmark {
+    background-color: #3479FF;
+    border-color: #3479FF;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.checkbox-container input:checked ~ .checkmark:after {
+    display: block;
+    left: 5px;
+    top: 1px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.date-label {
+    font-weight: 600;
+    color: white;
+    margin: 12px 0 6px 0;
+}
+
+.date-shortcuts {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 6px;
+}
+
+.date-shortcuts button {
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    background: #3479FF;
+    color: white;
+    font-weight: 500;
+    transition: background 0.2s, box-shadow 0.2s;
+}
+
+.date-shortcuts .active-date-shortcut,
+.date-shortcuts button.active-date-shortcut {
+    background: #1a5ee8;
+    color: #fff;
+    box-shadow: 0 1px 8px #3479ff29;
+    border: 1px solid #3479FF;
+}
+
+.date-shortcuts button:hover {
+    background: #4C8DFF;
 }
 
 .popup-overlay {
     position: fixed;
-    inset: 0;
-    background: rgba(10, 10, 20, 0.55);
-    backdrop-filter: blur(8px);
+    z-index: 100;
+    left: 0; right: 0;
+    top: 0; bottom: 0;
+    background: rgba(20,24,34,0.52);
     display: flex;
-    justify-content: center;
     align-items: center;
-    z-index: 200;
+    justify-content: center;
 }
 
 .popup-window {
-    background: #1F2635;
-    width: 480px;
-    padding: 32px;
-    border-radius: 18px;
-    border: 1px solid #2d3548;
-    color: white;
+    background: #212A3A;
+    border: 1px solid #2a3550;
+    border-radius: 14px;
+    box-shadow: 0 8px 30px #0004;
+    padding: 36px 32px 28px 32px;
+    min-width: 320px;
+    max-width: 380px;
     display: flex;
     flex-direction: column;
-    gap: 22px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+    gap: 15px;
 }
 
 .popup-window input,
 .popup-window textarea {
-    background: #151922;
-    border: 1px solid #2B3241;
-    padding: 14px;
-    border-radius: 12px;
-    color: white;
-    font-size: 0.95rem;
+    background: #101621;
+    color: #c8d2ef;
+    border-radius: 8px;
+    border: 1px solid #2a3550;
+    padding: 10px 12px;
+    outline: none;
+    font-size: 1rem;
+    margin-bottom: 8px;
 }
 
-.popup-window textarea {
-    min-height: 90px;
-    resize: none;
-}
-
-.popup-window h2 {
-    font-size: 1.6rem;
-    font-weight: 700;
-    margin-bottom: 4px;
+.popup-window input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(60%);
 }
 
 .popup-buttons {
-    margin-top: 6px;
     display: flex;
-    justify-content: space-between;
-    gap: 12px;
+    gap: 10px;
+    margin-top: 12px;
 }
 
-.popup-cancel {
-    background: #2f384a;
-    border: 1px solid #394154;
+.popup-add, .popup-cancel {
     padding: 10px 20px;
-    border-radius: 12px;
-    font-weight: 500;
+    border-radius: 8px;
+    border: none;
     cursor: pointer;
-    transition: 0.2s;
-    color: #d6d9e0;
-}
-
-.popup-cancel:hover {
-    background: #3c4558;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: background 0.2s;
 }
 
 .popup-add {
     background: #3479FF;
-    border: 1px solid #3479FF;
-    padding: 10px 22px;
-    border-radius: 12px;
-    font-weight: 600;
-    color: white;
-    cursor: pointer;
-    transition: 0.2s;
-    box-shadow: 0 2px 8px rgba(52, 121, 255, 0.25);
+    color: #fff;
 }
 
 .popup-add:hover {
-    background: #4C8DFF;
-    border-color: #4C8DFF;
+    background: #1a5ee8;
 }
 
-.popup-add, .popup-cancel{
-    font-family: 'Inter', sans-serif;
-    font-weight: 600;
+.popup-cancel {
+    background: #202736;
+    color: #A6B0C3;
+    border: 1px solid #2a3550;
+}
+
+.popup-cancel:hover {
+    background: #181c28;
 }
