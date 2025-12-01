@@ -1,16 +1,36 @@
-# React + Vite
+# Forto
+Forto is a all in one task tracker, habit tracker, and pomodoro timer. It keeps track of your daily tasks and habits along with your focus time, allowing everything to happen in one place
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Updates
+- basic navbar made
+- todo page basics added
+- dashboard page created
+- navbar completely styled
+- dashboard styling started
+- dashboard styling nav bar error fixed (padding)
+- dashboard completely styled
+- dark/light mode introducted
+- task section styling completed
+- mini popup styling done
+- habit section styling done same as tasks (slight changes for the sections)
+- pomodoro/focus timer styled and completed
+- custom timer added for break and focus times
+- todo features added
+- tasks segregation by date feature added
+- dashboard buttons linked directly to pages
+- habit page created using same feature as tasks
+- streaks added to habits
+- analytics page created
+- graph created using chartjs showing completed tasks and habits per day (last 7 days)
+- auto complete feature for tasks with the undo button
+- total habits, tasks completed, streaks all shown in analytics page
+- dashboard feature showing total tasks habits and focus time for the day
+- focus time today, tasks completed today, and habits completed today all fixed by creating constants storing the data for today to show in the dashboard
+- graph problem for habits fixed, allows to show habit completed each day
+- dashboard restyled for box shadow and border to look smoother
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Built With
+- React
+- Javascript
+- CSS
+- HTML
