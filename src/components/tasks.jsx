@@ -206,8 +206,21 @@ function Tasks() {
             <input type="text" name="title" placeholder="Title" value={editTask.title} onChange={(e) => handleInputChange(e, setEditTask)} />
             <textarea name="description" placeholder="Description" value={editTask.description} onChange={(e) => handleInputChange(e, setEditTask)} />
             <div className="date-shortcuts">
-              <button type="button" className={newTask.date === todayISO ? "active-date-shortcut" : ""} onClick={() => setNewTask({ ...newTask, date: todayISO })}>Today</button>
-              <button type="button" className={newTask.date === tomorrowISO ? "active-date-shortcut" : ""} onClick={() => setNewTask({ ...newTask, date: tomorrowISO })}>Tomorrow</button>
+              <button
+                type="button"
+                className={editTask.date === todayISO ? "active-date-shortcut" : ""}
+                onClick={() => setEditTask({ ...editTask, date: todayISO})}
+              >
+                Today
+              </button>
+
+              <button
+                type="button"
+                className={editTask.date === tomorrowISO ? "active-date-shortcut" : ""}
+                onClick={() => setEditTask({ ...editTask, date: tomorrowISO})}
+              >
+                Tomorrow
+              </button>
             </div>
             <input type="date" name="date" min={todayISO} value={editTask.date} onChange={(e) => handleInputChange(e, setEditTask)} />
             <div className="popup-buttons">
