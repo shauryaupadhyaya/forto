@@ -194,3 +194,77 @@ body, .dashboard-outer {
    transform: translateY(-2px);
    box-shadow: 0 4px 20px rgba(52,121,255,0.35);
 }
+
+.light-mode body,
+.light-mode .dashboard-outer{
+  background: #f5f7fa;
+  color: #2a2e37;
+}
+
+.light-mode .dashboard-outer{
+  background: #f5f7fa;
+}
+
+.light-mode .dash-title{
+  color: #1a1d24;
+}
+
+.light-mode .dash-sub{
+  color: #4f5563;
+}
+
+.light-mode .stat-label{
+  color: #4f5563;
+}
+
+.light-mode .stat-card{
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.light-mode .stat-value{
+  color: #3479FF;
+}
+
+.light-mode .focus-box{
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.light-mode .focus-box p{
+  color: #4f5563;
+}
+
+.light-mode .focus-box h3{
+  color: #1a1d24;
+}
+
+.light-mode .focus-btn{
+  background: #3479FF;
+  color: white;
+}
+
+.light-mode .section-card{
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.light-mode .section-card h3{
+  color: #1a1d24;
+}
+
+.light-mode .add-btn{
+  background: #3479FF;
+  color: white;
+}
+
+.light-mode .empty-text{
+  color: #6c7384;
+}
+
+.light-mode .stat-card:hover,
+.light-mode .focus-box:hover,
+.light-mode .section-card:hover{
+  border: 1px solid #3479FF;
+  box-shadow: 0 6px 20px rgba(52,121,255,0.25);
+}
