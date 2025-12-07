@@ -1,0 +1,437 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap");
+
+.habits-page {
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+  background: #151922;
+  color: #a6b0c3;
+  padding-left: 90px;
+  padding-top: 30px;
+  padding-right: 30px;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.habits-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 22px;
+}
+
+.habits-header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 26px;
+}
+
+.tabs-group {
+  display: flex;
+  gap: 12px;
+}
+
+.tab-pill {
+  background: #202736;
+  padding: 10px 22px;
+  font-weight: 500;
+  border-radius: 10px;
+  cursor: pointer;
+  border: 1px solid #2a3550;
+  font-size: 1rem;
+  color: #bdc2d0;
+  transition: 0.2s;
+}
+
+.tab-pill.active {
+  background: #3479ff;
+  color: white;
+  border-color: #3479ff;
+}
+
+.new-habit-btn {
+  background: #3479ff;
+  padding: 10px 20px;
+  border-radius: 12px;
+  color: white;
+  cursor: pointer;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: 0.2s;
+  box-shadow: 0 2px 8px rgba(52, 121, 255, 0.18);
+}
+
+.new-habit-btn:hover {
+  background: #4c8dff;
+}
+
+.empty-box {
+  background: #202736;
+  border: 1px solid #2a3550;
+  padding: 60px;
+  border-radius: 16px;
+  text-align: center;
+  margin-top: 22px;
+  color: #a6b0c3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.habit-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 820px;
+}
+
+.habit-card {
+  background: #242d3c;
+  padding: 20px;
+  border-radius: 16px;
+  border: 1px solid #323d55;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.habit-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 1;
+}
+
+.habit-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  flex: 1;
+}
+
+.habit-info.no-description {
+  justify-content: center;
+  height: 48px;
+}
+
+.habit-info strong {
+  color: white;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+}
+
+.habit-info p {
+  margin-top: 4px;
+  color: #a6b0c3;
+  font-size: 0.95rem;
+}
+
+.completed-habit {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+.habit-streak-container {
+  padding-right: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.streak-badge {
+  margin-left: 0;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: 0.85rem;
+  user-select: none;
+  color: gray;
+}
+
+.streak-badge.lit {
+  color: #ff4500;
+}
+
+.streak-badge.lit span {
+  margin-left: 4px;
+}
+
+.habit-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.edit-btn {
+  background: #3479ff;
+  border: none;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+}
+
+.edit-btn:hover {
+  background: #1a5ee8;
+}
+
+.delete-btn {
+  background: #d64545;
+  border: none;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+}
+
+.delete-btn:hover {
+  background: #a83030;
+}
+
+.checkbox-container {
+  display: block;
+  position: relative;
+  padding-left: 24px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkbox-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkbox-container input:focus + .checkmark {
+  box-shadow: 0 0 0 2px #4c8dff61;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 18px;
+  width: 18px;
+  background-color: #2a3242;
+  border: 1px solid #3a4663;
+  border-radius: 4px;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.checkbox-container input:checked ~ .checkmark {
+  background-color: #3479ff;
+  border-color: #3479ff;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.checkbox-container input:checked ~ .checkmark:after {
+  display: block;
+  left: 5px;
+  top: 1px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 20, 0.55);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 200;
+}
+
+.popup-window {
+  background: #1f2635;
+  width: 480px;
+  padding: 32px;
+  border-radius: 18px;
+  border: 1px solid #2d3548;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.popup-window input,
+.popup-window textarea {
+  background: #151922;
+  border: 1px solid #2b3241;
+  padding: 14px;
+  border-radius: 12px;
+  color: white;
+  font-size: 0.95rem;
+}
+
+.popup-window textarea {
+  min-height: 90px;
+  resize: none;
+}
+
+.popup-window h2 {
+  font-size: 1.6rem;
+  margin-bottom: 4px;
+  font-weight: 700;
+}
+
+.popup-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+}
+
+.popup-cancel {
+  background: #2f384a;
+  border: 1px solid #394154;
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  color: #d6d9e0;
+  transition: 0.2s;
+}
+
+.popup-cancel:hover {
+  background: #3c4558;
+}
+
+.popup-add {
+  background: #3479ff;
+  border: 1px solid #3479ff;
+  padding: 10px 22px;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  color: white;
+  transition: 0.2s;
+  box-shadow: 0 2px 8px rgba(52, 121, 255, 0.25);
+}
+
+.popup-add:hover {
+  background: #4c8dff;
+  border-color: #4c8dff;
+}
+
+.habit-select {
+  background: #151922;
+  border: 1px solid #2b3241;
+  padding: 12px;
+  border-radius: 12px;
+  color: white;
+  font-size: 1rem;
+}
+
+.habit-info strong span {
+  text-decoration: inherit;
+}
+
+.light-mode .habits-page {
+  background: #f5f6fa;
+  color: #3b4460;
+}
+
+.light-mode .habits-title {
+  color: #1a1d27;
+}
+
+.light-mode .tab-pill {
+  background: #e4e7ef;
+  color: #505978;
+  border: 1px solid #cbd2e4;
+}
+
+.light-mode .tab-pill.active {
+  background: #3479ff;
+  color: white;
+  border-color: #3479ff;
+}
+
+.light-mode .habit-card {
+  background: #ffffff;
+  border: 1px solid #d6d9e4;
+}
+
+.light-mode .habit-info strong {
+  color: #1a1d27;
+}
+
+.light-mode .habit-info p {
+  color: #525c76;
+}
+
+.light-mode .popup-window {
+  background: #ffffff;
+  border: 1px solid #d4d9e5;
+}
+
+.light-mode .popup-window input,
+.light-mode .popup-window textarea {
+  background: #fafbff;
+  color: #333a52;
+  border: 1px solid #c8cfe0;
+}
+
+.light-mode .popup-window h2 {
+  color: #1a1d27;
+}
+
+.light-mode .checkbox-container .checkmark {
+  background: #e9edf7;
+  border: 1px solid #b7bfd4;
+}
+
+.light-mode .checkbox-container input:checked ~ .checkmark {
+  background-color: #3479ff;
+  border-color: #3479ff;
+}
+
+.light-mode .empty-box {
+  background: #ffffff;
+  border: 1px solid #d7dbea;
+  color: #6b738b;
+}
+
+.light-mode .habit-select {
+  background: #ffffff;
+  color: #333a52;
+  border: 1px solid #c8cfe0;
+}
+
+.light-mode .date-label {
+  color: #1a1d27;
+}
+
+.light-mode .date-shortcuts button:hover {
+  background: #1f65ff;
+}
+
+.light-mode .tab-pill:hover {
+  background-color: #e0e0e0;
+  color: #1a1d27;
+  border-color: #c8c8c8;
+}
+
+.light-mode .tab-pill.active:hover {
+  background: #3479ff;
+  color: white;
+  border-color: #3479ff;
+}
