@@ -270,3 +270,11 @@ body, .dashboard-outer {
   border: 1px solid #3479FF;
   box-shadow: 0 6px 20px rgba(52,121,255,0.25);
 }
+
+.red-text{
+  color: rgb(196, 39, 39);
+}
+
+.green-text{
+  color: #4caf50;
+}

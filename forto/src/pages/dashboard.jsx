@@ -5,46 +5,82 @@ import { useEffect, useState } from "react";
 function Dashboard() {
   const navigate = useNavigate();
 
-  const [todayTasks, setTodayTasks] = useState({ done: 0, total: 0 });
-  const [todayHabits, setTodayHabits] = useState({ done: 0, total: 0 });
+  const [todayTasks, setTodayTasks] = useState({ done: 0, total: 0, remaining: [], completed: [] });
+  const [todayHabits, setTodayHabits] = useState({ done: 0, total: 0, remaining: [], completed: [] });
   const [focusTime, setFocusTime] = useState(0);
 
   useEffect(() => {
-    const today = new Date().toISOString().split("T")[0];
+    const updateTodayData = () => {
+      const today = new Date().toISOString().split("T")[0];
 
-    const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-    const completedTasks = JSON.parse(localStorage.getItem("completedTasks")) || [];
+      const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+      const completedTasks = JSON.parse(localStorage.getItem("completedTasks")) || [];
 
-    const todayActive = tasks.filter((t) => t.date === today);
-    const todayCompleted = completedTasks.filter((t) => t.date === today);
+      const allTodayTasks = [
+        ...tasks.filter((t) => t.date === today),
+        ...completedTasks.filter((t) => t.date === today),
+      ];
 
-    const done = todayCompleted.length;
-    const total = todayActive.length + todayCompleted.length;
-    setTodayTasks({ done, total });
+      const remaining = allTodayTasks.filter((t) => !t.completed).map((t) => t.title);
+      const completed = allTodayTasks.filter((t) => t.completed).map((t) => t.title);
 
-    const habits = JSON.parse(localStorage.getItem("habits")) || [];
-    const daily = habits.filter((h) => h.type === "daily");
-    const completed = daily.filter((h) => h.completed).length;
-    setTodayHabits({ done: completed, total: daily.length });
+      setTodayTasks({
+        done: completed.length,
+        total: allTodayTasks.length,
+        remaining,
+        completed,
+      });
 
-    const savedDate = localStorage.getItem("focusDate");
-    const dateToday = new Date().toDateString();
+      const habits = JSON.parse(localStorage.getItem("habits")) || [];
+      const dailyHabits = habits.filter((h) => h.type === "daily");
+      const remainingHabits = dailyHabits.filter((h) => !h.completed).map((h) => h.name);
+      const completedHabits = dailyHabits.filter((h) => h.completed).map((h) => h.name);
 
-    if (savedDate !== dateToday) {
-      localStorage.setItem("focusTimeToday", 0);
-      localStorage.setItem("focusDate", dateToday);
-      setFocusTime(0);
-    } else {
-      const ft = Number(localStorage.getItem("focusTimeToday")) || 0;
-      setFocusTime(Math.floor(ft));
-    }
+      setTodayHabits({
+        done: completedHabits.length,
+        total: dailyHabits.length,
+        remaining: remainingHabits,
+        completed: completedHabits,
+      });
+
+      const savedDate = localStorage.getItem("focusDate");
+      const dateToday = new Date().toDateString();
+
+      if (savedDate !== dateToday) {
+        localStorage.setItem("focusTimeToday", 0);
+        localStorage.setItem("focusDate", dateToday);
+        setFocusTime(0);
+      } else {
+        const ft = Number(localStorage.getItem("focusTimeToday")) || 0;
+        setFocusTime(Math.floor(ft));
+      }
+    };
+
+    updateTodayData();
+    const interval = setInterval(updateTodayData, 1000);
+
+    return () => clearInterval(interval);
   }, []);
+
+  const renderListWithColors = (remaining, completed) => {
+    if (remaining.length === 0 && completed.length === 0) return <span>No items</span>;
+
+    return (
+      <>
+        {remaining.length > 0 && <span className="red-text">{remaining.join(", ")}</span>}
+        {remaining.length > 0 && completed.length > 0 && <span>, </span>}
+        {completed.length > 0 && <span className="green-text">{completed.join(", ")}</span>}
+      </>
+    );
+  };
 
   return (
     <div className="dashboard-outer">
       <div className="dashboard">
         <div className="dashboard-header-row">
-          <h1 className="dash-title">Good day! <span className="wave">👋</span></h1>
+          <h1 className="dash-title">
+            Good day! <span className="wave">👋</span>
+          </h1>
           <div className="dash-avatar"></div>
         </div>
 
@@ -82,7 +118,9 @@ function Dashboard() {
             <h3>Today's Tasks</h3>
             <button className="focus-btn" onClick={() => navigate("/tasks")}>+ Add Task</button>
           </div>
-          <p className="empty-text">No tasks for today. Add one to get started!</p>
+          <p className="empty-text">
+            {renderListWithColors(todayTasks.remaining, todayTasks.completed)}
+          </p>
         </div>
 
         <div className="section-card">
@@ -90,7 +128,9 @@ function Dashboard() {
             <h3>Today's Habits</h3>
             <button className="focus-btn" onClick={() => navigate("/habits")}>+ Add Habit</button>
           </div>
-          <p className="empty-text">No habits tracked. Create one to build consistency!</p>
+          <p className="empty-text">
+            {renderListWithColors(todayHabits.remaining, todayHabits.completed)}
+          </p>
         </div>
       </div>
     </div>

@@ -25,6 +25,7 @@ function Tasks() {
   const [showEditTask, setShowEditTask] = useState(false);
   const [newTask, setNewTask] = useState({ title: "", description: "", date: "" });
   const [editTask, setEditTask] = useState({ id: null, title: "", description: "", date: "" });
+  const [duplicateWarning, setDuplicateWarning] = useState(false)
 
   const [removedTask, setRemovedTask] = useState(null);
   const [undoTimer, setUndoTimer] = useState(null);
@@ -39,6 +40,16 @@ function Tasks() {
 
   const addTask = () => {
     if (!newTask.title || !newTask.date) return;
+    
+    const exists = tasks.some(
+      (t) => t.title === newTask.title && t.date === newTask.date
+    );
+    if(exists) {
+      setDuplicateWarning(true);
+      setTimeout(() => setDuplicateWarning(false), 3000);
+      return;
+    }
+
     setTasks([...tasks, { ...newTask, id: Date.now(), completed: false }]);
     setNewTask({ title: "", description: "", date: "" });
     setShowNewTask(false);
@@ -138,6 +149,12 @@ function Tasks() {
   return (
     <div className="tasks-page">
       <h1 className="tasks-title">Tasks</h1>
+
+      {duplicateWarning && (
+        <div className="duplicate-popup">
+          <span>Task already exists!</span>
+        </div>
+      )}
 
       <div className="tasks-header-bar">
         <div className="tabs-group">

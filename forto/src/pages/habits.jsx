@@ -11,6 +11,7 @@ function Habits() {
   const [tab, setTab] = useState("daily");
   const [showNewHabit, setShowNewHabit] = useState(false);
   const [showEditHabit, setShowEditHabit] = useState(false);
+  const [duplicateWarning, setDuplicateWarning] = useState(false);
 
   const [newHabit, setNewHabit] = useState({
     name: "",
@@ -18,6 +19,7 @@ function Habits() {
     type: "daily",
     completed: false,
     streak: 0,
+    bestStreak: 0,
     lastCompletedDate: null,
   });
 
@@ -28,6 +30,7 @@ function Habits() {
     type: "daily",
     completed: false,
     streak: 0,
+    bestStreak: 0,
     lastCompletedDate: null,
   });
 
@@ -43,31 +46,43 @@ function Habits() {
 
   useEffect(() => {
     const today = getISODate(new Date());
+    const currentWeek = getWeekNumber(new Date()).toString();
     const lastDailyReset = localStorage.getItem("lastDailyReset");
     const lastWeeklyReset = localStorage.getItem("lastWeeklyReset");
-    const currentWeek = getWeekNumber(new Date()).toString();
-
     let updated = false;
-    let newHabits = habits;
 
-    if (lastDailyReset !== today) {
-      newHabits = newHabits.map((h) =>
-        h.type === "daily" ? { ...h, completed: false } : h
-      );
-      localStorage.setItem("lastDailyReset", today);
-      updated = true;
-    }
+    const newHabits = habits.map((h) => {
+      let habit = { ...h };
 
-    if (lastWeeklyReset !== currentWeek) {
-      newHabits = newHabits.map((h) =>
-        h.type === "weekly" ? { ...h, completed: false } : h
-      );
-      localStorage.setItem("lastWeeklyReset", currentWeek);
-      updated = true;
-    }
+      if (h.type === "daily" && lastDailyReset !== today) {
+        habit.completed = false;
+        if (habit.lastCompletedDate) {
+          const lastDate = new Date(habit.lastCompletedDate);
+          const yesterday = new Date();
+          yesterday.setDate(yesterday.getDate() - 1);
+          if (getISODate(lastDate) !== getISODate(yesterday)) habit.streak = 0;
+        }
+        updated = true;
+      }
+
+      if (h.type === "weekly" && lastWeeklyReset !== currentWeek) {
+        habit.completed = false;
+        if (habit.lastCompletedDate) {
+          const lastDate = new Date(habit.lastCompletedDate);
+          const lastWeek = parseInt(currentWeek) - 1;
+          const habitWeek = getWeekNumber(lastDate);
+          if (habitWeek !== lastWeek) habit.streak = 0;
+        }
+        updated = true;
+      }
+
+      return habit;
+    });
 
     if (updated) {
       setHabits(newHabits);
+      localStorage.setItem("lastDailyReset", today);
+      localStorage.setItem("lastWeeklyReset", currentWeek);
     }
   }, [habits]);
 
@@ -82,6 +97,16 @@ function Habits() {
 
   const addHabit = () => {
     if (!newHabit.name.trim()) return;
+    const exists = habits.some(
+      (h) =>
+        h.name.toLowerCase() === newHabit.name.toLowerCase() &&
+        h.type === newHabit.type
+    );
+    if (exists) {
+      setDuplicateWarning(true);
+      setTimeout(() => setDuplicateWarning(false), 3000);
+      return;
+    }
     setHabits([...habits, { ...newHabit, id: Date.now() }]);
     setNewHabit({
       name: "",
@@ -89,6 +114,7 @@ function Habits() {
       type: "daily",
       completed: false,
       streak: 0,
+      bestStreak: 0,
       lastCompletedDate: null,
     });
     setShowNewHabit(false);
@@ -101,7 +127,9 @@ function Habits() {
 
   const saveEdit = () => {
     if (!editHabit.name.trim()) return;
-    setHabits(habits.map((h) => (h.id === editHabit.id ? { ...editHabit } : h)));
+    setHabits(
+      habits.map((h) => (h.id === editHabit.id ? { ...editHabit } : h))
+    );
     setShowEditHabit(false);
     setEditHabit({
       id: null,
@@ -110,6 +138,7 @@ function Habits() {
       type: "daily",
       completed: false,
       streak: 0,
+      bestStreak: 0,
       lastCompletedDate: null,
     });
   };
@@ -120,10 +149,10 @@ function Habits() {
 
   const toggleComplete = (id) => {
     const today = getISODate(new Date());
-
     const newLog = JSON.parse(localStorage.getItem("habitCompletionLog")) || [];
-    newLog.push({ habitId: id, date: today });
-    localStorage.setItem("habitCompletionLog", JSON.stringify(newLog));
+    const alreadyLogged = newLog.some(
+      (log) => log.habitId === id && log.date === today
+    );
 
     setHabits((prevHabits) =>
       prevHabits.map((h) => {
@@ -131,14 +160,31 @@ function Habits() {
 
         const completed = !h.completed;
         let newStreak = h.streak || 0;
+        let newBestStreak = h.bestStreak || 0;
 
-        if (completed) newStreak += 1;
-        else newStreak = Math.max(0, newStreak - 1);
+        if (completed && !alreadyLogged) {
+          newLog.push({ habitId: id, date: today });
+          localStorage.setItem("habitCompletionLog", JSON.stringify(newLog));
+          newStreak += 1;
+          newBestStreak = Math.max(newBestStreak, newStreak);
+        }
+
+        if (!completed && alreadyLogged) {
+          const cleanedLog = newLog.filter(
+            (log) => !(log.habitId === id && log.date === today)
+          );
+          localStorage.setItem(
+            "habitCompletionLog",
+            JSON.stringify(cleanedLog)
+          );
+          newStreak = Math.max(0, newStreak - 1);
+        }
 
         return {
           ...h,
           completed,
           streak: newStreak,
+          bestStreak: newBestStreak,
           lastCompletedDate: completed ? today : h.lastCompletedDate,
         };
       })
@@ -158,12 +204,16 @@ function Habits() {
           />
           <span className="checkmark"></span>
         </label>
-        <div className={`habit-info ${!habit.description ? "no-description" : ""}`}>
+        <div
+          className={`habit-info ${!habit.description ? "no-description" : ""}`}
+        >
           <strong className={habit.completed ? "completed-habit" : ""}>
             <span>{habit.name}</span>
           </strong>
           {habit.description && (
-            <p className={habit.completed ? "completed-habit" : ""}>{habit.description}</p>
+            <p className={habit.completed ? "completed-habit" : ""}>
+              {habit.description}
+            </p>
           )}
         </div>
       </div>
@@ -174,8 +224,12 @@ function Habits() {
         </span>
       </div>
       <div className="habit-actions">
-        <button className="edit-btn" onClick={() => openEdit(habit)}>Edit</button>
-        <button className="delete-btn" onClick={() => deleteHabit(habit.id)}>Delete</button>
+        <button className="edit-btn" onClick={() => openEdit(habit)}>
+          Edit
+        </button>
+        <button className="delete-btn" onClick={() => deleteHabit(habit.id)}>
+          Delete
+        </button>
       </div>
     </div>
   );
@@ -183,6 +237,11 @@ function Habits() {
   return (
     <div className="habits-page">
       <h1 className="habits-title">Habits</h1>
+      {duplicateWarning && (
+        <div className="duplicate-popup">
+          <span>Habit already exists!</span>
+        </div>
+      )}
       <div className="habits-header-bar">
         <div className="tabs-group">
           {["daily", "weekly"].map((t) => (
@@ -199,13 +258,13 @@ function Habits() {
           + New Habit
         </button>
       </div>
-
       {filteredHabits.length === 0 ? (
-        <div className="empty-box"><p>No habits here yet. Create one to get started!</p></div>
+        <div className="empty-box">
+          <p>No habits here yet. Create one to get started!</p>
+        </div>
       ) : (
         filteredHabits.map(renderHabitCard)
       )}
-
       {showNewHabit && (
         <div className="popup-overlay">
           <div className="popup-window">
@@ -234,13 +293,19 @@ function Habits() {
               <option value="weekly">Weekly</option>
             </select>
             <div className="popup-buttons">
-              <button className="popup-add" onClick={addHabit}>Add</button>
-              <button className="popup-cancel" onClick={() => setShowNewHabit(false)}>Cancel</button>
+              <button className="popup-add" onClick={addHabit}>
+                Add
+              </button>
+              <button
+                className="popup-cancel"
+                onClick={() => setShowNewHabit(false)}
+              >
+                Cancel
+              </button>
             </div>
           </div>
         </div>
       )}
-
       {showEditHabit && (
         <div className="popup-overlay">
           <div className="popup-window">
@@ -268,8 +333,15 @@ function Habits() {
               <option value="weekly">Weekly</option>
             </select>
             <div className="popup-buttons">
-              <button className="popup-add" onClick={saveEdit}>Save</button>
-              <button className="popup-cancel" onClick={() => setShowEditHabit(false)}>Cancel</button>
+              <button className="popup-add" onClick={saveEdit}>
+                Save
+              </button>
+              <button
+                className="popup-cancel"
+                onClick={() => setShowEditHabit(false)}
+              >
+                Cancel
+              </button>
             </div>
           </div>
         </div>

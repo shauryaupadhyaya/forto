@@ -38,9 +38,11 @@ function ActivityChart() {
             day.toLocaleDateString("en-US", { month: "short", day: "numeric" })
         );
 
+        const habitLog = JSON.parse(localStorage.getItem("habitCompletionLog")) || []
+
         const habitCounts = last7Days.map(day => {
             const dayStr = getLocalDateString(day);
-            return habits.filter(h => h.lastCompletedDate === dayStr).length;
+            return habitLog.filter(h => h.date === dayStr).length;
         });
 
         const taskCounts = last7Days.map(day => {

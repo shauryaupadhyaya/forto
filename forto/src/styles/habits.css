@@ -435,3 +435,36 @@
   color: white;
   border-color: #3479ff;
 }
+
+.duplicate-popup{
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #ff4d4f;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  animation: slideDown 0.3s ease-out, fadeOut 0.5s ease-out 2.5s forwards;
+}
+
+@keyframes slideDown {
+  from{
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+  }
+  to{
+    opacity: 1;
+    transform: translateX(-50%) translateY(0px);
+  }
+}
+
+@keyframes fadeOut {
+  to{
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
