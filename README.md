@@ -31,6 +31,10 @@ Forto is a all in one task tracker, habit tracker, and pomodoro timer. It keeps 
 - today and tomorrow date shortcuts added to tasks edit popup
 - dashboard styles added for light mode
 - habit page and tasks page light mode completed
+- duplicate habits and tasks warning created
+- streak breaking fixed in habits
+- analytics best streak updated and graph for only whole numbers
+- dashboard todays tasks and habits linked
 
 ## Built With
 - React
