@@ -1,0 +1,480 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap");
+
+.tasks-page {
+  font-family: "Inter", sans-serif;
+  background: #151922;
+  color: #a6b0c3;
+  padding-left: 90px;
+  padding-top: 30px;
+  padding-right: 30px;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.tasks-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 22px;
+}
+
+.tasks-header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 26px;
+}
+
+.tabs-group {
+  display: flex;
+  gap: 12px;
+}
+
+.tab-pill {
+  background: #202736;
+  padding: 10px 22px;
+  font-weight: 500;
+  border-radius: 10px;
+  cursor: pointer;
+  border: 1px solid #2a3550;
+  font-size: 1rem;
+  color: #bdc2d0;
+  transition: 0.2s;
+}
+
+.tab-pill.active {
+  background: #3479ff;
+  color: white;
+  border-color: #3479ff;
+}
+
+.new-task-btn {
+  background: #3479ff;
+  padding: 10px 20px;
+  border-radius: 12px;
+  color: white;
+  cursor: pointer;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.empty-box {
+  background: #202736;
+  border: 1px solid #2a3550;
+  padding: 60px;
+  border-radius: 16px;
+  text-align: center;
+  margin-top: 22px;
+  color: #a6b0c3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.empty-box::before {
+  content: "✓";
+  font-size: 2rem;
+  color: #8792a7;
+}
+
+.task-card {
+  background: #242d3c;
+  border: 1px solid #323d55;
+  padding: 18px 20px;
+  border-radius: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.task-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 1;
+}
+
+.task-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+}
+
+.task-info strong {
+  color: white;
+  font-size: 1.1rem;
+}
+
+.task-info p {
+  color: #a6b0c3;
+  font-size: 0.95rem;
+  margin-top: 2px;
+}
+
+.completed-task {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+.task-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.edit-btn {
+  background: #3479ff;
+  border: none;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.delete-btn {
+  background: #d64545;
+  border: none;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.checkbox-container {
+  display: block;
+  position: relative;
+  padding-left: 24px;
+  cursor: pointer;
+}
+
+.checkbox-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkbox-container input:focus + .checkmark {
+  box-shadow: 0 0 0 2px #4c8dff61;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 18px;
+  width: 18px;
+  background-color: #2a3242;
+  border: 1px solid #3a4663;
+  border-radius: 4px;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.checkbox-container input:checked ~ .checkmark {
+  background-color: #3479ff;
+  border-color: #3479ff;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.checkbox-container input:checked ~ .checkmark:after {
+  display: block;
+  left: 5px;
+  top: 1px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.date-label {
+  font-weight: 600;
+  color: white;
+  margin: 12px 0 6px 0;
+}
+
+.date-shortcuts {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.date-shortcuts button {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background: #3479ff;
+  color: white;
+  font-weight: 500;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.date-shortcuts .active-date-shortcut,
+.date-shortcuts button.active-date-shortcut {
+  background: #1a5ee8;
+  color: #fff;
+  box-shadow: 0 1px 8px #3479ff29;
+  border: 1px solid #3479ff;
+}
+
+.date-shortcuts button:hover {
+  background: #1f65ff;
+}
+
+.popup-overlay {
+  position: fixed;
+  z-index: 100;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(20, 24, 34, 0.52);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.popup-window {
+  background: #212a3a;
+  border: 1px solid #2a3550;
+  border-radius: 14px;
+  box-shadow: 0 8px 30px #0004;
+  padding: 36px 32px 28px 32px;
+  min-width: 320px;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.popup-window input,
+.popup-window textarea {
+  background: #101621;
+  color: #c8d2ef;
+  border-radius: 8px;
+  border: 1px solid #2a3550;
+  padding: 10px 12px;
+  outline: none;
+  font-size: 1rem;
+  margin-bottom: 8px;
+}
+
+.popup-window input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(60%);
+}
+
+.popup-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.popup-add,
+.popup-cancel {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: background 0.2s;
+}
+
+.popup-add {
+  background: #3479ff;
+  color: #fff;
+}
+
+.popup-add:hover {
+  background: #4c8dff;
+}
+
+.popup-cancel {
+  background: #202736;
+  color: #a6b0c3;
+  border: 1px solid #2a3550;
+}
+
+.popup-cancel:hover {
+  background: #181c28;
+}
+
+.undo-popup {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #202736;
+  color: #a6b0c3;
+  padding: 12px 20px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  font-weight: 500;
+}
+
+.undo-popup span {
+  font-size: 0.95rem;
+}
+
+.undo-popup button {
+  background: #3479ff;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+}
+
+.undo-popup button:hover {
+  background: #1a5ee8;
+}
+
+.duplicate-popup{
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #ff4d4f;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  animation: slideDown 0.3s ease-out;
+}
+
+.duplicate-popup.fade-out{
+  animation: fadeOut 0.5s ease-out forwards;
+  animation-delay: 2s;
+}
+
+@keyframes slideDown {
+  from{
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+  }
+  to{
+    opacity: 1;
+    transform: translateX(-50%) translateY(0px);
+  }
+}
+
+@keyframes fadeOut {
+  to{
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+.light-mode .tasks-page {
+  background: #f5f6fa;
+  color: #3b4460;
+}
+
+.light-mode .tasks-title {
+  color: #1a1d27;
+}
+
+.light-mode .tab-pill {
+  background: #e4e7ef;
+  color: #505978;
+  border: 1px solid #cbd2e4;
+}
+
+.light-mode .tab-pill.active {
+  background: #3479ff;
+  color: white;
+  border-color: #3479ff;
+}
+
+.light-mode .task-card {
+  background: #ffffff;
+  border: 1px solid #d6d9e4;
+}
+
+.light-mode .task-info strong {
+  color: #1a1d27;
+}
+
+.light-mode .task-info p {
+  color: #525c76;
+}
+
+.light-mode .popup-window {
+  background: #ffffff;
+  border: 1px solid #d4d9e5;
+}
+
+.light-mode .popup-window input,
+.light-mode .popup-window textarea {
+  background: #fafbff;
+  color: #333a52;
+  border: 1px solid #c8cfe0;
+}
+
+.light-mode .popup-window h2 {
+  color: #1a1d27;
+}
+
+.light-mode .checkbox-container .checkmark {
+  background: #e9edf7;
+  border: 1px solid #b7bfd4;
+}
+
+.light-mode .checkbox-container input:checked ~ .checkmark {
+  background-color: #3479ff;
+  border-color: #3479ff;
+}
+
+.light-mode .empty-box {
+  background: #ffffff;
+  border: 1px solid #d7dbea;
+  color: #6b738b;
+}
+
+.light-mode .date-label {
+  color: #1a1d27;
+}
+
+.light-mode .date-shortcuts button:hover {
+  background: #1f65ff;
+}
+
+.light-mode .undo-popup {
+  background: #ffffff;
+  border: 1px solid #d4d9e5;
+  color: #3b4460;
+}
+
+.light-mode .tab-pill:hover {
+  background-color: #e0e0e0;
+  color: #1a1d27;
+  border-color: #c8c8c8;
+}
+
+.light-mode .tab-pill.active:hover {
+  background: #3479ff;
+  color: white;
+  border-color: #3479ff;
+}
