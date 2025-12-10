@@ -36,6 +36,31 @@ Forto is a all in one task tracker, habit tracker, and pomodoro timer. It keeps 
 - analytics best streak updated and graph for only whole numbers
 - dashboard todays tasks and habits linked
 
+## Running the Project
+
+Make sure you have **Node.js** installed on your system.
+
+Clone the repository and install the dependencies:
+
+git clone https://github.com/your-username/your-repo-name.git  
+cd forto/forto  
+npm install  
+
+Start the development server:
+
+npm run dev  
+
+Then open your browser and go to:
+
+http://localhost:5173  
+
+To build the project for production:
+
+npm run build  
+npm run preview  
+
+You can deploy this project on platforms like GitHub Pages, Netlify, Vercel, or Cloudflare Pages.
+
 ## Built With
 - React
 - Javascript
