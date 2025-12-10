@@ -52,7 +52,7 @@ Use `git clone` to download the project:
 ### Go into the project folder
 Use the cd command to move into the Forto project folder so you can run all project commands from the correct place.
 
-Use the command `cd forto/forto` along with your path
+Use the command `cd forto/forto` along with your path, for example `cd /Users/your-username/repo-folder/forto/forto`
 
 ### Install Dependencies
 Use `npm install` to install all required packages:
